@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const { validation } = require("../middleware/validation");
 const { getStudents } = require("../controllers/student.controller");
 const { postStudents } = require("../controllers/student.controller");
 const { putStudents } = require("../controllers/student.controller");
@@ -10,8 +11,8 @@ router.get("/", function (req, res) {
 });
 
 router.get("/students", getStudents);
-router.post("/students", postStudents);
-router.put("/students/:id", putStudents);
+router.post("/students", validation, postStudents);
+router.put("/students/:id", validation, putStudents);
 router.delete("/students/:id", deleteStudents);
 
 module.exports = router;
