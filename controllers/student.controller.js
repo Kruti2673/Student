@@ -41,8 +41,8 @@ module.exports.deleteStudents = async (req, res) => {
   if (!req.params.id) {
     return res.status(400).send();
   }
-  const deleteStudent = await data.save();
-  console.log("deleteStudent:", deleteStudent);
+  // const deleteStudent = await data.save();
+  console.log("deleteStudent:", data);
 
   res.send(data);
 };
