@@ -32,11 +32,11 @@ const validation = async (req, res, next) => {
     console.log("\n");
     console.log("Validation errors:");
     error.details.forEach((error) => {
-      console.log(error.message);
+      console.log(error);
     });
     return res.status(500).send({
       status: false,
-      errors: error.details.map((error) => error.message),
+      errors: error.details.map((error) => error),
     });
   }
 };

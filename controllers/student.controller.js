@@ -1,20 +1,26 @@
 const Student = require("../model/Student");
 
 module.exports.getStudents = async (req, res) => {
-  const data = await Student.find({});
-  console.log("data:", data);
-  return res.send({ data });
+  try {
+    const data = await Student.find({});
+    console.log("data:", data);
+    return res.status(200).send({ status: true, data });
+  } catch (e) {
+    return res.status(500).send({ status: false, e });
+  }
 };
 
 module.exports.postStudents = async (req, res, next) => {
-  const data = new Student({
-    ...req.body,
-  });
+  try {
+    const data = new Student({
+      ...req.body,
+    });
+    console.log("\nsavedStudent:", data);
 
-  const savedStudent = await data.save();
-  console.log("savedStudent:", savedStudent);
-
-  return res.send({ status: true, data });
+    return res.status(200).send({ status: true, data });
+  } catch (e) {
+    return res.status(500).send({ status: false, e });
+  }
 };
 
 module.exports.putStudents = async (req, res) => {
@@ -27,7 +33,7 @@ module.exports.putStudents = async (req, res) => {
       },
       { new: true }
     );
-    console.log("updateStudent:", data);
+    console.log("\nupdateStudent:", data);
 
     return res.status(200).send({ status: true, data });
   } catch (e) {
@@ -36,13 +42,17 @@ module.exports.putStudents = async (req, res) => {
 };
 
 module.exports.deleteStudents = async (req, res) => {
-  console.log(req.params.id);
-  const data = await Student.findOneAndDelete({ _id: req.params.id });
-  if (!req.params.id) {
-    return res.status(400).send();
-  }
-  // const deleteStudent = await data.save();
-  console.log("deleteStudent:", data);
+  try {
+    console.log(req.params.id);
+    const data = await Student.findOneAndDelete({ _id: req.params.id });
+    if (!req.params.id) {
+      return res.status(400).send();
+    }
 
-  res.send(data);
+    console.log("\ndeleteStudent:", data);
+
+    return res.status(200).send({ status: true, data });
+  } catch (e) {
+    return res.status(500).send({ status: false, e });
+  }
 };
